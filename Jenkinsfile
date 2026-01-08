@@ -8,9 +8,10 @@ pipeline {
         // -------------------------------------------------
         stage('Checkout') {
             steps {
-                git 'https://github.com/yeliznurkilic/YDG-Restoran-Sistemi.git'
+                git branch: 'main', url: 'https://github.com/yeliznurkilic/YDG-Restoran-Sistemi.git'
             }
         }
+
 
         // -------------------------------------------------
         // 2. Maven testlerini çalıştır (Birim + Entegrasyon)
