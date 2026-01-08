@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("integration")
-class ReservationIntegrationTest {
+class ReservationIntegrationIT {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private TableRepository tableRepository;

@@ -38,7 +38,7 @@ pipeline {
 
         stage('Integration Tests') {
             steps {
-                bat 'mvn test -Dspring.profiles.active=integration -Dtest=**/*IntegrationTest'
+                bat 'mvn test -Dspring.profiles.active=integration -Dtest=**/*IT'
             }
         }
 
