@@ -2,9 +2,9 @@ pipeline {
     agent any
 
     tools {
-            maven 'M3'
-            jdk 'jdk-21'
-        }
+        maven 'M3'
+        jdk 'jdk-21'
+    }
 
     stages {
         stage('Checkout') {
@@ -13,12 +13,17 @@ pipeline {
             }
         }
 
-        stage('Test') {
+        stage('Unit Tests') {
             steps {
-                sh 'mvn clean test'
+                sh 'mvn test -Dtest=*Test'
             }
         }
 
+        stage('Integration Tests') {
+            steps {
+                sh 'mvn test -Dtest=*IntegrationTest'
+            }
+        }
 
         stage('Package') {
             steps {
@@ -26,19 +31,26 @@ pipeline {
             }
         }
 
-        stage('Docker Build') {
+        stage('Docker Compose Up') {
             steps {
-                sh 'docker build -t restaurant-app .'
+                sh '''
+                docker-compose down || true
+                docker-compose up -d --build
+                echo "🚀 App running on http://localhost:9090"
+                '''
             }
         }
+    }
 
-        stage('Deploy') {
-            steps {
-                script {
-                    sh 'docker compose down || true'
-                    sh 'docker compose up -d'
-                }
-            }
+    post {
+        always {
+            sh 'docker-compose down || true'
+        }
+        success {
+            echo '🎉 Pipeline completed successfully!'
+        }
+        failure {
+            echo '❌ Pipeline failed!'
         }
     }
 }
