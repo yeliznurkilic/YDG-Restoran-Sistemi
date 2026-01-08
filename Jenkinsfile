@@ -2,40 +2,50 @@ pipeline {
     agent any
 
     stages {
+
+        // -------------------------------------------------
+        // 1. GitHub'dan projeyi çek
+        // -------------------------------------------------
         stage('Checkout') {
             steps {
-                checkout scm
+                git 'https://github.com/yeliznurkilic/YDG-Restoran-Sistemi.git'
             }
         }
 
-        stage('Run Tests') {
+        // -------------------------------------------------
+        // 2. Maven testlerini çalıştır (Birim + Entegrasyon)
+        // -------------------------------------------------
+        stage('Test') {
             steps {
-                sh 'mvn test'
+                sh 'mvn clean test'
             }
         }
 
-        stage('Build Jar') {
+        // -------------------------------------------------
+        // 3. Uygulamayı paketle (jar üret)
+        // -------------------------------------------------
+        stage('Package') {
             steps {
                 sh 'mvn clean package -DskipTests'
             }
         }
 
-        stage('Build Docker Image') {
+        // -------------------------------------------------
+        // 4. Docker image oluştur
+        // -------------------------------------------------
+        stage('Docker Build') {
             steps {
                 sh 'docker build -t restaurant-app .'
             }
         }
 
-        stage('Run with Docker Compose') {
+        // -------------------------------------------------
+        // 5. Docker-compose ile çalıştır (deploy)
+        // -------------------------------------------------
+        stage('Deploy') {
             steps {
-                sh 'docker compose up -d --build'
+                sh 'docker compose up -d'
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Pipeline Finished.'
         }
     }
 }

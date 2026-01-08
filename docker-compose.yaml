@@ -1,36 +1,49 @@
-version: '3.8'
-
 services:
+  jenkins:
+    image: jenkins/jenkins:lts
+    container_name: jenkins
+    restart: always
+    user: root
+    ports:
+      - "8080:8080"     # Jenkins UI
+      - "50000:50000"   # Jenkins agents
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock   # Jenkins'in docker kullanabilmesi için
+    networks:
+      - ci_network
+
   db:
     image: postgres:17
     container_name: restoran_db_container
+    restart: always
     environment:
       POSTGRES_DB: restoran_db
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123456 # Buraya kendi şifreni yaz
-    ports:
-      - "5432:5432"
+      POSTGRES_PASSWORD: 123456
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - restaurant_network
+      - ci_network
+
   app:
     build: .
     container_name: restaurant_app
+    restart: always
     depends_on:
-      - postgres
+      - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/restoran_db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/restoran_db
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: 123456
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"              # dışarı açmıyoruz, sadece network içinde erişilecek
     networks:
-      - restaurant_network
+      - ci_network
 
 networks:
-  restaurant_network:
+  ci_network:
 
 volumes:
+  jenkins_home:
   postgres_data:
