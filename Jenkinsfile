@@ -7,53 +7,53 @@ pipeline {
     }
 
     stages {
-       stage('Checkout') {
-           steps {
-               echo "Pulling from GitHub..."
-               sh 'git clone https://github.com/yeliznurkilic/YDG-Restoran-Sistemi.git repo'
-               sh 'ls -la repo'
-           }
-       }
-
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/yeliznurkilic/YDG-Restoran-Sistemi.git'
+                bat 'git --version'
+            }
+        }
 
         stage('Unit Tests') {
             steps {
-                sh 'mvn test -Dtest=*Test'
+                bat 'mvn test -Dtest=*Test'
             }
         }
 
         stage('Integration Tests') {
             steps {
-                sh 'mvn test -Dtest=*IntegrationTest'
+                bat 'mvn test -Dtest=*IntegrationTest'
             }
         }
 
         stage('Package') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                bat 'mvn clean package -DskipTests'
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                bat 'docker build -t restaurant-app .'
             }
         }
 
         stage('Docker Compose Up') {
             steps {
-                sh '''
-                docker-compose down || true
-                docker-compose up -d --build
-                echo "🚀 App running on http://localhost:9090"
-                '''
+                bat 'docker-compose up -d'
             }
         }
     }
 
     post {
         always {
-            sh 'docker-compose down || true'
+            bat 'docker-compose down || exit 0'
         }
         success {
-            echo '🎉 Pipeline completed successfully!'
+            echo "🎉 Başarılı!"
         }
         failure {
-            echo '❌ Pipeline failed!'
+            echo "❌ Pipeline failed!"
         }
     }
 }
