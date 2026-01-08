@@ -17,10 +17,15 @@ pipeline {
         // 2. Maven testlerini çalıştır (Birim + Entegrasyon)
         // -------------------------------------------------
         stage('Test') {
+            tools {
+                jdk 'jdk-21'
+                maven 'maven-3.9'
+            }
             steps {
                 sh 'mvn clean test'
             }
         }
+
 
         // -------------------------------------------------
         // 3. Uygulamayı paketle (jar üret)
