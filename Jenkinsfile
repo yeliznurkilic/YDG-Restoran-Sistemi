@@ -14,18 +14,18 @@ pipeline {
             }
         }
 
+        stage('Unit Tests') {
+            steps {
+                bat "mvn -Dtest=*ServiceTest test"
+            }
+        }
+
         stage('Prepare DB for Integration Tests') {
             steps {
                 bat '''
                 docker compose down || exit 0
                 docker compose up -d db
                 '''
-            }
-        }
-
-        stage('Unit Tests') {
-            steps {
-                bat "mvn -Dtest=*ServiceTest test"
             }
         }
 
