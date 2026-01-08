@@ -7,11 +7,14 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git branch: 'main', url: 'https://github.com/yeliznurkilic/YDG-Restoran-Sistemi.git'
-            }
-        }
+       stage('Checkout') {
+           steps {
+               echo "Pulling from GitHub..."
+               sh 'git clone https://github.com/yeliznurkilic/YDG-Restoran-Sistemi.git repo'
+               sh 'ls -la repo'
+           }
+       }
+
 
         stage('Unit Tests') {
             steps {
