@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("integration")
-class OrderPaymentIntegrationTest {
+class OrderPaymentIntegrationIT {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private OrderRepository orderRepository;
