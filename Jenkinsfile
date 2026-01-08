@@ -31,7 +31,7 @@ pipeline {
 
         stage('Integration Tests') {
             steps {
-                bat "mvn -Dtest=*IT test"
+                bat "mvn -Dtest=*IntegrationTest test"
             }
         }
 
