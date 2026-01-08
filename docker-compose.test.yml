@@ -1,0 +1,11 @@
+services:
+  test-db:
+    image: postgres:17
+    container_name: restoran_test_db
+    restart: always
+    environment:
+      POSTGRES_DB: restoran_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 123456
+    ports:
+      - "5432:5432"

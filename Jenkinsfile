@@ -29,9 +29,16 @@ pipeline {
             }
         }
 
+        stage('Start Test DB') {
+            steps {
+                bat 'docker-compose -f docker-compose.test.yml up -d'
+                bat 'timeout /t 10'
+            }
+        }
+
         stage('Integration Tests') {
             steps {
-                bat "mvn -Dtest=*IntegrationTest test"
+                bat 'mvn test -Dspring.profiles.active=integration -Dtest=**/*IntegrationTest'
             }
         }
 
