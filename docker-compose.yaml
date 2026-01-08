@@ -1,4 +1,5 @@
 services:
+
   db:
     image: postgres:17
     container_name: restoran_db_container
@@ -10,7 +11,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - ci_network
+      - app_network
 
   app:
     build: .
@@ -25,10 +26,10 @@ services:
     ports:
       - "8080:8080"
     networks:
-      - ci_network
+      - app_network
 
 networks:
-  ci_network:
+  app_network:
 
 volumes:
   postgres_data:

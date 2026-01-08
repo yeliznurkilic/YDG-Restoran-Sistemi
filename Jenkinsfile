@@ -14,59 +14,38 @@ pipeline {
             }
         }
 
-        stage('Unit Tests') {
+        stage('Unit + Integration Tests') {
             steps {
-                bat "mvn -Dtest=*ServiceTest test"
-            }
-        }
-
-        stage('Prepare DB for Integration Tests') {
-            steps {
-                bat '''
-                docker compose down || exit 0
-                docker compose up -d db
-                '''
-            }
-        }
-
-        stage('Start Test DB') {
-            steps {
-                bat 'docker-compose -f docker-compose.test.yml up -d'
-                bat 'timeout /t 10'
-            }
-        }
-
-        stage('Integration Tests') {
-            steps {
-                bat 'mvn test -Dspring.profiles.active=integration -Dtest=**/*IT'
+                bat 'mvn -Dspring.profiles.active=test test'
             }
         }
 
         stage('Package') {
             steps {
-                bat "mvn clean package -DskipTests"
+                bat 'mvn clean package -DskipTests'
             }
         }
 
-        stage('Docker Build & Run') {
+        stage('Docker Build') {
             steps {
-                bat '''
-                    docker build -t restaurant-app .
-                    docker compose up -d app
-                    '''
+                bat 'docker build -t restaurant-app .'
+            }
+        }
+
+        stage('Docker Up') {
+            steps {
+                bat 'docker-compose down || exit 0'
+                bat 'docker-compose up -d --build'
             }
         }
     }
 
     post {
-        always {
-            bat "docker compose down || exit 0"
-        }
         success {
-            echo "🎉 Build + Test + Docker başarıyla tamamlandı!"
+            echo "🚀 CI pipeline başarıyla tamamlandı!"
         }
         failure {
-            echo "❌ Pipeline failed!"
+            echo "❌ Pipeline fail oldu!"
         }
     }
 }
