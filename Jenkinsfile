@@ -32,11 +32,16 @@ pipeline {
             }
         }
 
-        stage('Docker Down') {
-            steps {
-                bat 'docker-compose down --remove-orphans || echo "cleanup ok"'
-            }
-        }
+       stage('Docker Down') {
+           steps {
+               bat '''
+               docker-compose down -v --remove-orphans --rmi local || true
+               timeout /t 2 >nul
+               '''
+
+           }
+       }
+
         stage('Docker Up') {
             steps {
                 bat 'docker-compose up -d --build'
