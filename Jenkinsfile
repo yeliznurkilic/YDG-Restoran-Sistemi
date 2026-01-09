@@ -35,8 +35,8 @@ pipeline {
        stage('Docker Down') {
            steps {
                bat '''
-               docker-compose down -v --remove-orphans --rmi local || true
-               timeout /t 2 >nul
+               docker-compose down -v --remove-orphans --rmi local || exit 0
+               Start-Sleep -Seconds 2
                '''
 
            }
