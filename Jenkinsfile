@@ -28,18 +28,22 @@ pipeline {
 
         stage('Docker Build') {
             steps {
-                bat 'docker build -t restaurant-app .'
+                bat '''
+                    set DOCKER_BUILDKIT=0
+                    docker build -t restaurant-app .
+                '''
             }
         }
 
         stage('Docker Down') {
             steps {
                 bat '''
-                    docker-compose down -v --remove-orphans --rmi local || exit 0
-                    powershell -Command "Start-Sleep -Seconds 2"
+                    docker-compose down --rmi local --volumes --remove-orphans || exit 0
+                    powershell -Command "Start-Sleep -Seconds 5"
                 '''
             }
         }
+
 
 
         stage('Docker Up') {
