@@ -32,15 +32,15 @@ pipeline {
             }
         }
 
-       stage('Docker Down') {
-           steps {
-               bat '''
-               docker-compose down -v --remove-orphans --rmi local || exit 0
-               Start-Sleep -Seconds 2
-               '''
+        stage('Docker Down') {
+            steps {
+                bat '''
+                    docker-compose down -v --remove-orphans --rmi local || exit 0
+                    powershell -Command "Start-Sleep -Seconds 2"
+                '''
+            }
+        }
 
-           }
-       }
 
         stage('Docker Up') {
             steps {
