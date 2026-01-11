@@ -7,6 +7,10 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MenuUITest {
 
@@ -40,9 +44,11 @@ public class MenuUITest {
     void shouldListMenuItems() {
         driver.get("http://localhost:8081/menu");
 
-        var items = driver.findElements(By.cssSelector(".menu-item"));
-        Assertions.assertFalse(items.isEmpty(), "Menü öğeleri bulunamadı!");
+        List<WebElement> items = driver.findElements(By.cssSelector(".menu-item"));
+
+        assertFalse(items.isEmpty(), "Menüde ürün listelenmeli!");
     }
+
 
     @AfterAll
     static void cleanup() {
