@@ -60,10 +60,20 @@ pipeline {
 
         stage('Selenium Tests') {
             steps {
-                bat 'mvn -Dtest=com.ydg.restaurant.selenium.MenuUITest test'
+                echo 'Sistemin (Docker) tamamen hazır olması bekleniyor...'
+                // Uygulamanın ayağa kalkması için Windows Jenkins'te timeout komutu
+                bat 'timeout /t 45 /nobreak'
+
+                // ÖNEMLİ: Paket ismini tam yazıyoruz
+                bat 'mvn -Dtest=com.ydg.restaurant.Integration.selenium.MenuUITest test'
+            }
+            post {
+                always {
+                    // Ödevde istenen "raporlama" kısmı: Test sonuçlarını Jenkins arayüzüne basar
+                    junit '**/target/surefire-reports/*.xml'
+                }
             }
         }
-    }
 
 
 
