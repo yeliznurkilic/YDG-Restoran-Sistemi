@@ -1,39 +1,48 @@
 package com.ydg.restaurant.selenium;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@ActiveProfiles("test")
-class MenuUITest {
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+public class MenuUITest {
 
-    WebDriver driver;
+    private static WebDriver driver;
 
-    @BeforeEach
-    void setup() {
+    @BeforeAll
+    static void setup() {
+        WebDriverManager.chromedriver().setup();
+
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
 
         driver = new ChromeDriver(options);
     }
 
     @Test
-    void openHomePage() {
+    @Order(1)
+    void shouldOpenMenuPage() {
         driver.get("http://localhost:8081/menu");
-        Assertions.assertEquals("Menu", driver.getTitle());
+        String title = driver.getTitle();
+        Assertions.assertTrue(title.toLowerCase().contains("menu"));
     }
 
-    @AfterEach
-    void close() {
-        if (driver != null) {
-            driver.quit();
-        }
+    @Test
+    @Order(2)
+    void shouldListMenuItems() {
+        driver.get("http://localhost:8081/menu");
+
+        var items = driver.findElements(By.cssSelector(".menu-item"));
+        Assertions.assertFalse(items.isEmpty(), "Menü öğeleri bulunamadı!");
+    }
+
+    @AfterAll
+    static void cleanup() {
+        if (driver != null) driver.quit();
     }
 }

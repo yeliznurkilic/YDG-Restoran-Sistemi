@@ -21,6 +21,11 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
+    public Category getById(Long id) {
+        return categoryRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Kategori bulunamadı"));
+    }
+
     public void deleteCategory(Long id) {
         if (!categoryRepository.existsById(id)) {
             throw new RuntimeException("Kategori bulunamadı!");
