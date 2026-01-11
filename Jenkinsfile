@@ -51,13 +51,14 @@ pipeline {
                 bat 'timeout /t 10'
             }
         }
-    }
-
-    stage('Selenium Tests') {
-        steps {
-            bat 'mvn -Dspring.profiles.active=test -Dtest=*UITest test'
+        stage('Selenium Tests') {
+            steps {
+                bat 'mvn -Dspring.profiles.active=test -Dtest=*UITest test'
+            }
         }
     }
+
+
 
     post {
         always {
