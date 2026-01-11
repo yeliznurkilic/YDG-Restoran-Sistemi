@@ -58,12 +58,11 @@ pipeline {
             }
         }
 
-        stage('Selenium Tests') {
+        stage('Selenium Test Calistir') {
             steps {
-                echo 'Sistemin (Docker) hazır olması bekleniyor...'
-                    bat 'ping 127.0.0.1 -n 45 > nul'
-                    'Selenium testleri baslatiliyor...'
-                    bat 'mvn -Dtest=com.ydg.restaurant.Integration.selenium.MenuUITest test'
+                echo 'Uygulamanın hazır olması için bekleniyor...'
+                bat 'ping 127.0.0.1 -n 45 > nul'
+                bat 'mvn -Dtest=com.ydg.restaurant.selenium.MenuUITest test'
             }
         }
     }
