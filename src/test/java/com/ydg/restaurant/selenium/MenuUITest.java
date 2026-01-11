@@ -15,14 +15,19 @@ public class MenuUITest {
 
     @BeforeEach
     void setup() {
-        // Hata çözümü için kritik sistem ayarı
+        // 1. Selenium'un hata veren ağ tarayıcısını devre dışı bırakın
         System.setProperty("webdriver.http.factory", "jdk-http-client");
 
-        // WebDriverManager'ı temizleyerek başlat
-        WebDriverManager.chromedriver().setup();
+        // 2. WebDriverManager ile driver'ı kurun ve yolu değişkene alın
+        WebDriverManager wdm = WebDriverManager.chromedriver();
+        wdm.setup();
+
+        // getBinaryPath() yerine getDownloadedDriverPath() kullanıyoruz
+        String driverPath = wdm.getDownloadedDriverPath();
+        System.setProperty("webdriver.chrome.driver", driverPath);
 
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new"); // Jenkins için zorunlu
+        options.addArguments("--headless=new"); // Jenkins ve servisler için zorunlu
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
