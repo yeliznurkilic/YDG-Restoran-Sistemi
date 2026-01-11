@@ -58,33 +58,12 @@ pipeline {
             }
         }
 
-        pipeline {
-            agent any
-            stages {
-                stage('Build & Docker Run') {
-                    steps {
-                        bat 'docker-compose down'
-                        bat 'docker-compose up -d --build'
-                    }
-                }
-
-                stage('Selenium Tests') {
-                    steps {
-                        echo 'Sistemin (Docker) hazır olması bekleniyor...'
-                        // Windows Jenkins için en stabil bekleme yöntemi:
-                        bat 'ping 127.0.0.1 -n 45 > nul'
-
-                        echo 'Selenium testleri baslatiliyor...'
-                        // Paket yolunu kendi projenizle birebir eşleyin
-                        bat 'mvn -Dtest=com.ydg.restaurant.selenium.MenuUITest test'
-                    }
-                }
-            }
-            post {
-                always {
-                    // Testler calıstıktan sonra raporları tara
-                    junit '**/target/surefire-reports/*.xml'
-                }
+        stage('Selenium Tests') {
+            steps {
+                echo 'Sistemin (Docker) hazır olması bekleniyor...'
+                    bat 'ping 127.0.0.1 -n 45 > nul'
+                    'Selenium testleri baslatiliyor...'
+                    bat 'mvn -Dtest=com.ydg.restaurant.Integration.selenium.MenuUITest test'
             }
         }
     }
