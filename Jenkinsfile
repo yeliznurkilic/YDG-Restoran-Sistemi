@@ -52,15 +52,15 @@ pipeline {
 
         stage('Docker Up') {
             steps {
-                bat """
-                    ping 127.0.0.1 -n 10 > nul
-                    mvn -Dspring.profiles.active=test -Dtest=MenuUITest test
-                """
+                bat 'docker-compose up -d'
+                echo "Sistemin hazır olması bekleniyor..."
+                bat 'ping 127.0.0.1 -n 20 > nul'
             }
         }
+
         stage('Selenium Tests') {
             steps {
-                bat 'mvn -Dspring.profiles.active=test -Dtest=*UITest test'
+                bat 'mvn -Dspring.profiles.active=test -Dtest=MenuUITest test'
             }
         }
     }
