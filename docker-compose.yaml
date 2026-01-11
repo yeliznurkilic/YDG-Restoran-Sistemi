@@ -8,6 +8,8 @@ services:
       POSTGRES_PASSWORD: 123456
     networks:
       - app_network
+    ports:
+      - "5432:5432"
 
   app:
     build: .

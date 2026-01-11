@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Menü Yönetimi</title>
+</head>
+<body>
+<h2>Menü Yönetimi</h2>
+
+<form th:action="@{/ui/menu/add}" method="post">
+    <input type="text" name="name" placeholder="Ürün adı" required>
+    <input type="number" name="price" placeholder="Fiyat" min="1" required>
+    <button type="submit">Ekle</button>
+</form>
+
+<hr>
+
+<table border="1">
+    <tr>
+        <th>Ürün</th>
+        <th>Fiyat</th>
+        <th>İşlem</th>
+    </tr>
+    <tr th:each="item : ${items}">
+        <td th:text="${item.name}"></td>
+        <td th:text="${item.price}"></td>
+        <td>
+            <form th:action="@{'/ui/menu/update/' + ${item.id}}" method="post">
+                <input type="number" name="price" placeholder="Yeni Fiyat" min="1" required>
+                <button type="submit">Güncelle</button>
+            </form>
+            <a th:href="@{'/ui/menu/delete/' + ${item.id}}">Sil</a>
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

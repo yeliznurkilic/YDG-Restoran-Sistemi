@@ -20,6 +20,7 @@ pipeline {
             }
         }
 
+
         stage('Package') {
             steps {
                 bat 'mvn clean package -DskipTests'
@@ -44,19 +45,27 @@ pipeline {
             }
         }
 
-
-
         stage('Docker Up') {
             steps {
                 bat 'docker-compose up -d --build'
+                bat 'timeout /t 10'
             }
         }
+    }
 
+    stage('Selenium Tests') {
+        steps {
+            bat 'mvn -Dspring.profiles.active=test -Dtest=*UITest test'
+        }
     }
 
     post {
+        always {
+            junit 'target/surefire-reports/*.xml'
+            bat 'docker-compose down --volumes --remove-orphans'
+        }
         success {
-            echo "🚀 CI pipeline başarıyla tamamlandı!"
+            echo "🚀 pipeline başarıyla tamamlandı!"
         }
         failure {
             echo "❌ Pipeline fail oldu!"
