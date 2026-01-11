@@ -52,8 +52,10 @@ pipeline {
 
         stage('Docker Up') {
             steps {
-                bat 'docker-compose up -d --build'
-                bat 'timeout /t 10'
+                bat """
+                    ping 127.0.0.1 -n 10 > nul
+                    mvn -Dspring.profiles.active=test -Dtest=MenuUITest test
+                """
             }
         }
         stage('Selenium Tests') {
