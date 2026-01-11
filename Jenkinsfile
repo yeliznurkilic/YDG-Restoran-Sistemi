@@ -60,7 +60,7 @@ pipeline {
 
         stage('Selenium Tests') {
             steps {
-                bat 'mvn -Dspring.profiles.active=test -Dtest=MenuUITest test'
+                bat 'set webdriver.http.factory=jdk-http-client && mvn -Dspring.profiles.active=test -Dtest=MenuUITest test'
             }
         }
     }

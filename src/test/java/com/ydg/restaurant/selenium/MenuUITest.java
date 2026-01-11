@@ -15,7 +15,6 @@ public class MenuUITest {
 
     @BeforeEach
     void setup() {
-        // Hata çözümü için bu satırı ekleyin:
         System.setProperty("webdriver.http.factory", "jdk-http-client");
 
         WebDriverManager.chromedriver().setup();
@@ -25,7 +24,7 @@ public class MenuUITest {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");
-
+        options.setBinary("C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe");
         driver = new ChromeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
     }
