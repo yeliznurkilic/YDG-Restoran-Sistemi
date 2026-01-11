@@ -1,5 +1,6 @@
 package com.ydg.restaurant.selenium;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,17 +13,18 @@ public class MenuUITest {
 
     private static WebDriver driver;
 
-    @BeforeAll
-    static void setup() {
+    @BeforeEach
+    void setup() {
+        WebDriverManager.chromedriver().setup();
+
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--remote-allow-origins=*");
 
         driver = new ChromeDriver(options);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
+
 
     @Test
     @Order(1)
