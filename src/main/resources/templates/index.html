@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Restaurant Management UI</title>
+</head>
+<body>
+<h1>Restaurant Management System</h1>
+<hr>
+<h3>Hızlı Masa Ekleme (Selenium Testi İçin)</h3>
+<form action="/api/tables" method="post" id="tableForm">
+    <input type="number" id="tableNumber" name="tableNumber" placeholder="Masa No" required>
+    <input type="number" id="capacity" name="capacity" placeholder="Kapasite" required>
+    <button type="submit" id="saveTableBtn">Masayı Kaydet</button>
+</form>
+<div id="resultMessage"></div>
+</body>
+</html>

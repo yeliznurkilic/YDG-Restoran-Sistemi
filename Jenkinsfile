@@ -60,7 +60,7 @@ pipeline {
 
         stage('Selenium Tests') {
             steps {
-                bat 'mvn -Dtest=com.ydg.restaurant.selenium.RestaurantSeleniumTest test'
+                bat 'mvn -Dtest=com.ydg.restaurant.selenium.MenuUITest test'
             }
         }
     }
