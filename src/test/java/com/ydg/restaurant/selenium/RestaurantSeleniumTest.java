@@ -17,15 +17,21 @@ public class RestaurantSeleniumTest {
 
     @BeforeEach
     void setup() {
-        // Sürücü hatasını önlemek için WebDriverManager üzerinden güvenli başlatma
+        // WebDriverManager'ın bu versiyonu Jenkins/Linux uyumludur
+        WebDriverManager.chromedriver().setup();
+
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless=new"); // Jenkins için zorunlu
-        options.addArguments("--no-sandbox");
-        options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--headless=new"); // Jenkins için kritik!
+        options.addArguments("--no-sandbox"); // Docker yetkilendirme sorunlarını önler
+        options.addArguments("--disable-dev-shm-usage"); // Bellek sorunlarını önler
         options.addArguments("--remote-allow-origins=*");
 
-        // create() metodu, içsel null pointer hatalarını yönetir
-        driver = WebDriverManager.chromedriver().capabilities(options).create();
+        try {
+            driver = new ChromeDriver(options);
+        } catch (Exception e) {
+            // Eğer hala çevre değişkeni hatası verirse, manuel oluşturmayı zorla
+            driver = WebDriverManager.chromedriver().capabilities(options).create();
+        }
         wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
