@@ -54,7 +54,7 @@ pipeline {
             steps {
                 bat 'docker-compose up -d'
                 echo "Sistemin hazır olması bekleniyor..."
-                bat 'ping 127.0.0.1 -n 20 > nul'
+                bat 'ping 127.0.0.1 -n 30 > nul'
             }
         }
 
