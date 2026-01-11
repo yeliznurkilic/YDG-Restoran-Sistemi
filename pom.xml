@@ -94,12 +94,13 @@
             <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.7.0</version>
-            <scope>test</scope>
+            <version>5.8.0</version>
         </dependency>
+
     </dependencies>
 
 	<build>

@@ -1,5 +1,6 @@
 package com.ydg.restaurant.selenium;
 
+import lombok.var;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -11,8 +12,8 @@ public class MenuUITest {
 
     private static WebDriver driver;
 
-    @BeforeAll
-    static void setup() {
+    @BeforeEach
+    void setup() {
         WebDriverManager.chromedriver().setup();
 
         ChromeOptions options = new ChromeOptions();
@@ -20,9 +21,11 @@ public class MenuUITest {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
+        options.addArguments("--remote-allow-origins=*");
 
         driver = new ChromeDriver(options);
     }
+
 
     @Test
     @Order(1)
