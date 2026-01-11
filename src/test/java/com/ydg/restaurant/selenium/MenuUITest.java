@@ -1,57 +1,50 @@
 package com.ydg.restaurant.selenium;
 
-import lombok.var;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import io.github.bonigarcia.wdm.WebDriverManager;
-
+import java.time.Duration;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class MenuUITest {
 
     private static WebDriver driver;
 
-    @BeforeEach
-    void setup() {
-        WebDriverManager.chromedriver().setup();
-
+    @BeforeAll
+    static void setup() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--disable-gpu");
         options.addArguments("--remote-allow-origins=*");
 
         driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
-
 
     @Test
     @Order(1)
-    void shouldOpenMenuPage() {
+    void openHomePage() {
         driver.get("http://localhost:8081/menu");
         String title = driver.getTitle();
-        Assertions.assertTrue(title.toLowerCase().contains("menu"));
+        Assertions.assertTrue(title.contains("Menu"));
     }
 
     @Test
     @Order(2)
     void shouldListMenuItems() {
         driver.get("http://localhost:8081/menu");
-
         List<WebElement> items = driver.findElements(By.cssSelector(".menu-item"));
 
-        assertFalse(items.isEmpty(), "Menüde ürün listelenmeli!");
+        Assertions.assertTrue(items.size() > 0, "Menü boş olmamalı!");
     }
 
-
     @AfterAll
-    static void cleanup() {
-        if (driver != null) driver.quit();
+    static void close() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
