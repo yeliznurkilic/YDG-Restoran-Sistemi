@@ -14,9 +14,14 @@ pipeline {
             }
         }
 
-        stage('Unit + Integration Tests') {
+        stage('Unit Tests') {
             steps {
-                bat 'mvn -Dspring.profiles.active=test test'
+                bat 'mvn -Dspring.profiles.active=test test -Dtest=*ServiceTest test'
+            }
+        }
+        stage('Integration Tests') {
+            steps {
+                bat 'mvn -Dspring.profiles.active=test test -Dtest=*IT test'
             }
         }
 
