@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html>
-<head><title>Restoran Test UI</title></head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Restoran Yönetim Paneli</title>
+    <style>
+        .test-box { border: 1px solid #333; padding: 15px; margin: 10px; border-radius: 5px; width: 400px; }
+        .success { color: green; font-weight: bold; }
+    </style>
+</head>
 <body>
-<h1>Restoran Yönetim Sistemi</h1>
-<input type="text" id="itemName">
-<button id="saveBtn" onclick="document.getElementById('msg').innerText='Kaydedildi: ' + document.getElementById('itemName').value">Kaydet</button>
-<div id="msg"></div>
+<h1>Restoran Otomasyon Test Arayüzü</h1>
+
+<div class="test-box">
+    <h3>Yemek Kaydı</h3>
+    <input type="text" id="itemName" placeholder="Yemek Adı">
+    <button id="saveBtn" onclick="document.getElementById('msg').innerText='Kaydedildi: ' + document.getElementById('itemName').value">Kaydet</button>
+    <p id="msg" class="success"></p>
+</div>
+
+<div class="test-box">
+    <h3>Masa Rezervasyonu</h3>
+    <input type="number" id="tableNo" placeholder="Masa Numarası">
+    <button id="reserveBtn" onclick="document.getElementById('resResult').innerText='Masa ' + document.getElementById('tableNo').value + ' Rezerve Edildi'">Rezerve Et</button>
+    <p id="resResult" class="success"></p>
+</div>
+
+<div class="test-box">
+    <h3>Sipariş Takibi</h3>
+    <input type="text" id="orderId" placeholder="Sipariş ID">
+    <button id="searchBtn" onclick="document.getElementById('statusMsg').innerText='Sipariş ORD-123: Hazırlanıyor'">Sorgula</button>
+    <p id="statusMsg" class="success"></p>
+</div>
+
 </body>
 </html>
