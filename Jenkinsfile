@@ -71,14 +71,14 @@ pipeline {
 
     post {
         always {
-            junit 'target/surefire-reports/*.xml'
+            echo 'Konteynerlar temizleniyor...'
             bat 'docker-compose down --volumes --remove-orphans'
         }
         success {
             echo "🚀 pipeline başarıyla tamamlandı!"
         }
         failure {
-            echo "❌ Pipeline fail oldu!"
+            echo "❌ Pipeline hata verdi, lütfen Console Output'u kontrol edin."
         }
     }
 }

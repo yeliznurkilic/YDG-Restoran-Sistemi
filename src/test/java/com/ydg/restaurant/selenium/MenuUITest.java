@@ -16,8 +16,6 @@ public class MenuUITest {
 
     @BeforeEach
     void setup() {
-        // !!! ÖNEMLİ: Jenkins sunucusunda chromedriver.exe neredeyse o yolu yazın
-        // Eğer Jenkins ve IntelliJ aynı bilgisayardaysa bu yol kalsın
         String driverPath = "C:/Projects/yazilimdogrulama/restoran-yonetimi/chromedriver-win64/chromedriver.exe";
 
         ChromeDriverService service = new ChromeDriverService.Builder()
@@ -27,7 +25,6 @@ public class MenuUITest {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--remote-allow-origins=*");
 
-        // JENKINS İÇİN ZORUNLU: Arka planda çalışması için
         options.addArguments("--headless=new");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
@@ -39,19 +36,15 @@ public class MenuUITest {
     @Test
     @DisplayName("Jenkins UI Test: Yemek Kaydetme")
     void testMenuSaveProcess() {
-        // Jenkins Docker-Compose üzerinden 8081'e erişecek
         driver.get("http://localhost:8081/");
 
-        // Input'u bekle ve yaz
         WebElement input = wait.until(ExpectedConditions.elementToBeClickable(By.id("itemName")));
         input.clear();
         input.sendKeys("Jenkins Test Yemeği");
 
-        // JavaScript ile tıklama (Windows Jenkins'te en güvenli yol)
         WebElement saveBtn = driver.findElement(By.id("saveBtn"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", saveBtn);
 
-        // Sonucu bekle (ID: msg olduğundan emin ol)
         WebElement result = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("msg")));
 
         String text = result.getText();
