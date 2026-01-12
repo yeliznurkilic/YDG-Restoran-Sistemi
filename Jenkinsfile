@@ -58,7 +58,7 @@ pipeline {
             }
         }
 
-        stage('Selenium Test Calistir') {
+        stage('Selenium Tests') {
             steps {
                 echo 'Uygulamanın hazır olması için bekleniyor...'
                 bat 'ping 127.0.0.1 -n 45 > nul'
