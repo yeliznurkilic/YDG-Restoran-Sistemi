@@ -10,7 +10,13 @@
 </head>
 <body>
 <h1>Restoran Otomasyon Test Arayüzü</h1>
-
+<div class="test-section">
+    <h3>Personel Girişi</h3>
+    <input type="text" id="username" placeholder="Kullanıcı Adı">
+    <input type="password" id="password" placeholder="Şifre">
+    <button id="loginBtn" onclick="document.getElementById('loginMsg').innerText='Giriş Başarılı: ' + document.getElementById('username').value">Giriş Yap</button>
+    <p id="loginMsg" class="msg"></p>
+</div>
 <div class="test-box">
     <h3>Yemek Kaydı</h3>
     <input type="text" id="itemName" placeholder="Yemek Adı">
@@ -32,5 +38,12 @@
     <p id="statusMsg" class="success"></p>
 </div>
 
+
+<div class="test-section">
+    <h3>Müşteri Geri Bildirimi</h3>
+    <textarea id="feedbackText" placeholder="Yorumunuz"></textarea>
+    <button id="submitFeedback" onclick="document.getElementById('feedMsg').innerText='Geri bildiriminiz iletildi!'">Gönder</button>
+    <p id="feedMsg" class="msg"></p>
+</div>
 </body>
 </html>
