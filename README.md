@@ -49,26 +49,16 @@ Bu proje Jenkins pipeline kullanarak aşağıdaki aşamaları otomatik olarak ge
 * Selenium Testleri çalıştırma
 
 ---
-
 ## 📊 Jenkins Pipeline Görünümü
 
 ### Pipeline Overview
-
 ![Pipeline Overview](images/pipeline-overview.png)
 
 ---
 
 ### Stage View
-
 ![Stage View](images/stage-view.png)
 
----
-
-### Pipeline Success Status
-
-![Pipeline Success](images/pipeline-success.png)
-
----
 
 ## 🐳 Docker Entegrasyonu
 
